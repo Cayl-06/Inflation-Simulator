@@ -20,6 +20,23 @@ public class SimulationManager {
         System.out.print("Enter number of days to survive: ");
         int days = sc.nextInt();
 
+        for (int day = 1; day <= days; day++) {
+            System.out.println("\nDay " + day);
+
+           
+            System.out.println("Market prices (placeholder): Rice ₱40, Meat ₱150");
+
+          
+            System.out.print("Enter expense for today: ");
+            double expense = sc.nextDouble();
+            budget -= expense;
+
+            if (budget < 0) {
+                System.out.println("Budget went negative! Game Over.");
+                return;
+            }
+            System.out.println("Remaining budget: ₱" + budget);
+        }
 
         System.out.println("\nSimulation complete!");
         System.out.println("Final budget: ₱" + budget);
