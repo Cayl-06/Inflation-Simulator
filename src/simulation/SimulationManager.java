@@ -14,6 +14,7 @@ public class SimulationManager {
         System.out.print("Enter choice: ");
         int choice = sc.nextInt();
 
+        // later connect to Household classes
         double budget = 5000; 
         System.out.println("Starting budget: ₱" + budget);
 
@@ -23,10 +24,10 @@ public class SimulationManager {
         for (int day = 1; day <= days; day++) {
             System.out.println("\nDay " + day);
 
-           
+           // i connect nya sa market ug infaltion later after
             System.out.println("Market prices (placeholder): Rice ₱40, Meat ₱150");
 
-          
+          // simulate buying
             System.out.print("Enter expense for today: ");
             double expense = sc.nextDouble();
             budget -= expense;
