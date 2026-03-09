@@ -21,9 +21,9 @@ public class SimulationManager {
         Household playerHousehold = null;
 
         System.out.println("Choose your household type:");
-        System.out.println("1. Low Income (₱5,000)");
-        System.out.println("2. Middle Income (₱12,000)");
-        System.out.println("3. High Income (₱25,000)");
+        System.out.println("1. Low Income (PHP5,000)");
+        System.out.println("2. Middle Income (PHP12,000)");
+        System.out.println("3. High Income (PHP25,000)");
         System.out.print("Choice: ");
         
         int hhChoice = sc.nextInt();
