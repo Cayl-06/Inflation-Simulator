@@ -89,3 +89,11 @@ java -cp out Main
 * **LOSS:** Your budget hits ₱0 (Bankruptcy) or you consistently fail to meet survival needs, leading to a failing Survival Score.
 
 ---
+## 👥 Credits
+
+This project was developed as a collaborative effort by:
+
+* [**Cayl-06**](https://github.com/Cayl-06)
+* [**EthannnJohnnn**](https://github.com/EthannnJohnnn)
+* [**chrkk**](https://github.com/chrkk)
+
