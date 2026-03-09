@@ -40,4 +40,9 @@ public class Market {
         }
         return null; // Return null if the user types an invalid number
     }
+
+    // Updates prices using the InflationCalculator (Requested in PR)
+    public void updatePrices(double rate) {
+        InflationCalculator.applyInflation(products, rate);
+    }
 }
