@@ -28,7 +28,7 @@ public class Market {
         for (int i = 0; i < products.size(); i++) {
             Product p = products.get(i);
             
-            System.out.println((i + 1) + ". " + p.getName() + ": ₱" + df.format(p.getPrice()) + " (" + p.getCategory() + ")");
+            System.out.println((i + 1) + ". " + p.getName() + ": PHP" + df.format(p.getPrice()) + " (" + p.getCategory() + ")");
         }
     }
 
