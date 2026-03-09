@@ -49,9 +49,7 @@ public class SimulationManager {
         double dailyInflationRate = 0.05; // 5% daily inflation
         int survivalScore = 0;
 
-        // ==========================================
         // 2. THE DAILY LOOP
-        // ==========================================
         for (int day = 1; day <= totalDays; day++) {
             System.out.println("\n==========================================");
             System.out.println("                  DAY " + day);
