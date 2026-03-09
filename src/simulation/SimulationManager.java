@@ -116,6 +116,17 @@ public class SimulationManager {
                     System.out.println("-> Invalid item ID. Please try again.");
                 }
             }
+            
+            // End of day Survival Check
+            System.out.println("\n--- End of Day " + day + " Report ---");
+            if (boughtFood && boughtTransport) {
+                System.out.println("Result: You met all your daily survival needs!");
+                survivalScore += 20; 
+            } else {
+                System.out.println("Result: WARNING! You failed to secure essential needs today.");
+                survivalScore -= 10; 
+            }
+        }
 
 
         
