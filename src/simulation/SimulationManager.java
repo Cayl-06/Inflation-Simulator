@@ -68,6 +68,12 @@ public class SimulationManager {
                 localMarket.triggerShortage("Rice", 2.0); 
             }
 
+            // Check if they are already broke
+            if (playerHousehold.getBudget() <= 0) {
+                System.out.println("\n❌ BANKRUPTCY! You have no money left to survive.");
+                break; // Exit the for-loop and go to Final Report
+            }
+
             boolean boughtFood = false;
             boolean boughtTransport = false;
             boolean doneShopping = false;
@@ -77,6 +83,12 @@ public class SimulationManager {
                 System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
                 System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
                 
+                if (playerHousehold.getBudget() < localMarket.getCheapestPrice()) {
+                    System.out.println("\n⚠️ You cannot afford any more items today.");
+                    doneShopping = true;
+                    continue;
+                }
+
                 localMarket.showProducts();
                 System.out.println("0. Finish shopping for the day");
                 System.out.print("Enter the ID of the item to buy: ");
