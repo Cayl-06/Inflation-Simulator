@@ -1,53 +1,145 @@
 package simulation;
 
+import market.Market;
+import market.Product;
+import household.Household;
+import household.LowIncomeHousehold;
+import household.MiddleIncomeHousehold;
+import household.HighIncomeHousehold;
+
 import java.util.Scanner;
 
 public class SimulationManager {
     public void run() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== Inflation & Cost of Living Simulator ===");
+        // 1. SETUP PHASE
 
-        // --- Household selection ---
-        // TODO: Replace with actual Household objects once Member 1 finishes their classes
-        System.out.println("Choose household type:");
-        System.out.println("1. Low Income Household");
-        System.out.println("2. Middle Income Household");
-        System.out.println("3. High Income Household");
-        System.out.print("Enter choice: ");
-        int choice = sc.nextInt();
+        System.out.println("=== Welcome to the Inflation & Cost of Living Simulator ===");
+        
+        Market localMarket = new Market();
+        Household playerHousehold = null;
 
-        // Placeholder budget (will later come from Household.getBudget())
-        double budget = 5000; 
-        System.out.println("Starting budget: ₱" + budget);
-
-        // --- Survival duration ---
-        System.out.print("Enter number of days to survive: ");
-        int days = sc.nextInt();
-
-        // --- Daily loop ---
-        for (int day = 1; day <= days; day++) {
-            System.out.println("\nDay " + day);
-
-            // TODO: Replace with Market.showProducts() once Member 2 finishes their classes
-            System.out.println("Market prices (placeholder): Rice ₱40, Meat ₱150");
-
-            // TODO: Replace with actual buying logic using Household.spend() and ExpenseTracker
-            System.out.print("Enter expense for today: ");
-            double expense = sc.nextDouble();
-            budget -= expense;
-
-            // --- Constraint check ---
-            if (budget < 0) {
-                System.out.println("Budget went negative! Game Over.");
-                return;
-            }
-            System.out.println("Remaining budget: ₱" + budget);
+        System.out.println("Choose your household type:");
+        System.out.println("1. Low Income (₱5,000)");
+        System.out.println("2. Middle Income (₱12,000)");
+        System.out.println("3. High Income (₱25,000)");
+        System.out.print("Choice: ");
+        
+        int hhChoice = sc.nextInt();
+        switch (hhChoice) {
+            case 1:
+                playerHousehold = new LowIncomeHousehold();
+                break;
+            case 2:
+                playerHousehold = new MiddleIncomeHousehold();
+                break;
+            case 3:
+                playerHousehold = new HighIncomeHousehold();
+                break;
+            default:
+                System.out.println("Invalid choice. Defaulting to Low Income.");
+                playerHousehold = new LowIncomeHousehold();
         }
 
-        // --- End of simulation ---
-        // TODO: Add scoring system and final report once integration is complete
-        System.out.println("\nSimulation complete!");
-        System.out.println("Final budget: ₱" + budget);
+        System.out.println("\nYou are playing as a: " + playerHousehold.getHouseholdType());
+        playerHousehold.dailyNeeds(); 
+
+        int totalDays = 5; 
+        double dailyInflationRate = 0.05; // 5% daily inflation
+        int survivalScore = 0;
+
+        // ==========================================
+        // 2. THE DAILY LOOP
+        // ==========================================
+        for (int day = 1; day <= totalDays; day++) {
+            System.out.println("\n==========================================");
+            System.out.println("                  DAY " + day);
+            System.out.println("==========================================");
+
+            // Apply inflation at the start of Day 2 onward
+            if (day > 1) {
+                // Member 2's market update
+                localMarket.updatePrices(dailyInflationRate); 
+                System.out.println(">>> ALERT: Inflation has increased prices by " + (dailyInflationRate * 100) + "%! <<<");
+            }
+
+            // Optional Curveball: Trigger a shortage
+            if (day == 3) {
+                System.out.println(">>> BREAKING NEWS: Severe Rice Shortage! <<<");
+                localMarket.triggerShortage("Rice", 2.0); 
+            }
+
+            boolean boughtFood = false;
+            boolean boughtTransport = false;
+            boolean doneShopping = false;
+
+            // Daily shopping loop
+            while (!doneShopping) {
+                System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
+                System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
+                
+                localMarket.showProducts();
+                System.out.println("0. Finish shopping for the day");
+                System.out.print("Enter the ID of the item to buy: ");
+                
+                int choice = sc.nextInt();
+
+                if (choice == 0) {
+                    doneShopping = true;
+                    continue;
+                }
+
+                Product selectedItem = localMarket.getProduct(choice);
+
+                if (selectedItem != null) {
+                     // 3. ENFORCE CONSTRAINTS (Exception Handling)
+                    try {
+                        // Member 1's spend method throws an Exception if they can't afford it
+                        playerHousehold.spend(selectedItem.getPrice());
+                        
+                        System.out.println("-> You successfully bought: " + selectedItem.getName());
+
+                        // Track categories for Member 3's survival score logic
+                        String category = selectedItem.getCategory();
+                        if (category.equalsIgnoreCase("Food")) {
+                            boughtFood = true;
+                        } else if (category.equalsIgnoreCase("Transport")) {
+                            boughtTransport = true;
+                        }
+                        
+                    } catch (Exception e) {
+                        // Catches the overspending error from Household.java
+                        System.out.println("-> [FAILED] " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("-> Invalid item ID. Please try again.");
+                }
+            }
+
+            // End of day Survival Check
+            System.out.println("\n--- End of Day " + day + " Report ---");
+            if (boughtFood && boughtTransport) {
+                System.out.println("Result: You met all your daily survival needs!");
+                survivalScore += 20; 
+            } else {
+                System.out.println("Result: WARNING! You failed to secure essential needs today.");
+                survivalScore -= 10; 
+            }
+        }
+
+
+        // 4. FINAL REPORT
+  
+        System.out.println("\n==========================================");
+        System.out.println("             SIMULATION OVER");
+        System.out.println("==========================================");
+        System.out.println("Final Survival Score: " + survivalScore);
+        System.out.println("Total Expenses: ₱" + String.format("%.2f", playerHousehold.getTotalExpenses()));
+        System.out.println("Remaining Budget: ₱" + String.format("%.2f", playerHousehold.getBudget()));
+        
+        sc.close();
+
+        
     }
 }
