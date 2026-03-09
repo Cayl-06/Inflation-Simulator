@@ -80,14 +80,17 @@ public class SimulationManager {
 
             // Daily shopping loop
             while (!doneShopping) {
-                System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
-                System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
                 
                 if (playerHousehold.getBudget() < localMarket.getCheapestPrice()) {
-                    System.out.println("\n⚠️ You cannot afford any more items today.");
-                    doneShopping = true;
-                    continue;
-                }
+                        System.out.println("\n⚠️ You cannot afford any more items (Cheapest item: ₱" 
+                                            + String.format("%.2f", localMarket.getCheapestPrice()) + ").");
+                        doneShopping = true;
+                        continue;
+                    }
+                
+
+                System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
+                System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
 
                 localMarket.showProducts();
                 System.out.println("0. Finish shopping for the day");
