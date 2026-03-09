@@ -68,15 +68,35 @@ public class SimulationManager {
                 localMarket.triggerShortage("Rice", 2.0); 
             }
 
+            // Check if they are already broke
+            if (playerHousehold.getBudget() <= 0) {
+                System.out.println("\n❌ BANKRUPTCY! You have no money left to survive.");
+
+                printFinalReport(survivalScore, playerHousehold);
+                
+                return; 
+            }
+
             boolean boughtFood = false;
             boolean boughtTransport = false;
             boolean doneShopping = false;
+            boolean cannotAffordAnything = false;
 
             // Daily shopping loop
             while (!doneShopping) {
+                
+                if (playerHousehold.getBudget() < localMarket.getCheapestPrice()) {
+                        System.out.println("\n⚠️ You cannot afford any more items (Cheapest item: ₱" 
+                                            + String.format("%.2f", localMarket.getCheapestPrice()) + ").");
+                        doneShopping = true;
+                        cannotAffordAnything = true;
+                        continue;
+                    }
+                
+
                 System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
                 System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
-                
+
                 localMarket.showProducts();
                 System.out.println("0. Finish shopping for the day");
                 System.out.print("Enter the ID of the item to buy: ");
@@ -116,6 +136,13 @@ public class SimulationManager {
             }
 
             // End of day Survival Check
+            if (cannotAffordAnything) {
+                System.out.println("\n❌ You can no longer afford any essential goods. Ending the simulation early.");
+                printFinalReport(survivalScore, playerHousehold);
+                sc.close();
+                return;
+            }
+
             System.out.println("\n--- End of Day " + day + " Report ---");
             if (boughtFood && boughtTransport) {
                 System.out.println("Result: You met all your daily survival needs!");
@@ -126,18 +153,22 @@ public class SimulationManager {
             }
         }
 
+        printFinalReport(survivalScore, playerHousehold);
+        sc.close();
 
-        // 4. FINAL REPORT
-  
+
+
+
+        
+    }
+    // 4. FINAL REPORT
+    private void printFinalReport(int survivalScore, Household household) {
         System.out.println("\n==========================================");
         System.out.println("             SIMULATION OVER");
         System.out.println("==========================================");
         System.out.println("Final Survival Score: " + survivalScore);
-        System.out.println("Total Expenses: ₱" + String.format("%.2f", playerHousehold.getTotalExpenses()));
-        System.out.println("Remaining Budget: ₱" + String.format("%.2f", playerHousehold.getBudget()));
-        
-        sc.close();
-
-        
+        System.out.println("Total Expenses: ₱" + String.format("%.2f", household.getTotalExpenses()));
+        System.out.println("Remaining Budget: ₱" + String.format("%.2f", household.getBudget()));
     }
+    
 }
