@@ -71,7 +71,10 @@ public class SimulationManager {
             // Check if they are already broke
             if (playerHousehold.getBudget() <= 0) {
                 System.out.println("\n❌ BANKRUPTCY! You have no money left to survive.");
-                break; // Exit the for-loop and go to Final Report
+
+                printFinalReport(survivalScore, playerHousehold);
+                
+                return; 
             }
 
             boolean boughtFood = false;
@@ -142,17 +145,18 @@ public class SimulationManager {
         }
 
 
-        // 4. FINAL REPORT
-  
+
+
+        
+    }
+    // 4. FINAL REPORT
+    private void printFinalReport(int survivalScore, Household household) {
         System.out.println("\n==========================================");
         System.out.println("             SIMULATION OVER");
         System.out.println("==========================================");
         System.out.println("Final Survival Score: " + survivalScore);
-        System.out.println("Total Expenses: ₱" + String.format("%.2f", playerHousehold.getTotalExpenses()));
-        System.out.println("Remaining Budget: ₱" + String.format("%.2f", playerHousehold.getBudget()));
-        
-        sc.close();
-
-        
+        System.out.println("Total Expenses: ₱" + String.format("%.2f", household.getTotalExpenses()));
+        System.out.println("Remaining Budget: ₱" + String.format("%.2f", household.getBudget()));
     }
+    
 }
