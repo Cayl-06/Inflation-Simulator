@@ -144,6 +144,9 @@ public class SimulationManager {
             }
         }
 
+        printFinalReport(survivalScore, playerHousehold);
+        sc.close();
+
 
 
 
