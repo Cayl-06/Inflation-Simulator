@@ -94,7 +94,7 @@ public class SimulationManager {
                     }
                 
 
-                System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
+                System.out.println("\nCurrent Budget: PHP" + String.format("%.2f", playerHousehold.getBudget())); 
                 System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
 
                 localMarket.showProducts();
@@ -167,8 +167,8 @@ public class SimulationManager {
         System.out.println("             SIMULATION OVER");
         System.out.println("==========================================");
         System.out.println("Final Survival Score: " + survivalScore);
-        System.out.println("Total Expenses: ₱" + String.format("%.2f", household.getTotalExpenses()));
-        System.out.println("Remaining Budget: ₱" + String.format("%.2f", household.getBudget()));
+        System.out.println("Total Expenses: PHP" + String.format("%.2f", household.getTotalExpenses()));
+        System.out.println("Remaining Budget: PHP" + String.format("%.2f", household.getBudget()));
     }
     
 }
