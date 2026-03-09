@@ -49,9 +49,7 @@ public class SimulationManager {
         double dailyInflationRate = 0.05; // 5% daily inflation
         int survivalScore = 0;
 
-        // ==========================================
         // 2. THE DAILY LOOP
-        // ==========================================
         for (int day = 1; day <= totalDays; day++) {
             System.out.println("\n==========================================");
             System.out.println("                  DAY " + day);
@@ -64,7 +62,7 @@ public class SimulationManager {
                 System.out.println(">>> ALERT: Inflation has increased prices by " + (dailyInflationRate * 100) + "%! <<<");
             }
 
-            // Optional Curveball: Trigger a shortage
+            // Trigger a shortage
             if (day == 3) {
                 System.out.println(">>> BREAKING NEWS: Severe Rice Shortage! <<<");
                 localMarket.triggerShortage("Rice", 2.0); 
@@ -93,14 +91,14 @@ public class SimulationManager {
                 Product selectedItem = localMarket.getProduct(choice);
 
                 if (selectedItem != null) {
-                     // 3. ENFORCE CONSTRAINTS (Exception Handling)
+                     //contraints
                     try {
                         // Member 1's spend method throws an Exception if they can't afford it
                         playerHousehold.spend(selectedItem.getPrice());
                         
                         System.out.println("-> You successfully bought: " + selectedItem.getName());
 
-                        // Track categories for Member 3's survival score logic
+                        // Track categories for survival score logic
                         String category = selectedItem.getCategory();
                         if (category.equalsIgnoreCase("Food")) {
                             boughtFood = true;
