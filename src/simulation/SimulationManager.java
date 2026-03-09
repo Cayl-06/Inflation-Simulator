@@ -57,7 +57,6 @@ public class SimulationManager {
 
             // Apply inflation at the start of Day 2 onward
             if (day > 1) {
-                // Member 2's market update
                 localMarket.updatePrices(dailyInflationRate); 
                 System.out.println(">>> ALERT: Inflation has increased prices by " + (dailyInflationRate * 100) + "%! <<<");
             }
@@ -113,12 +112,12 @@ public class SimulationManager {
                 if (selectedItem != null) {
                      //contraints
                     try {
-                        // Member 1's spend method throws an Exception if they can't afford it
+                        // spend method throws an Exception  if d afford
                         playerHousehold.spend(selectedItem.getPrice());
                         
                         System.out.println("-> You successfully bought: " + selectedItem.getName());
 
-                        // Track categories for survival score logic
+                        // Track category para survival score logic
                         String category = selectedItem.getCategory();
                         if (category.equalsIgnoreCase("Food")) {
                             boughtFood = true;
@@ -127,7 +126,7 @@ public class SimulationManager {
                         }
                         
                     } catch (Exception e) {
-                        // Catches the overspending error from Household.java
+                        // catches overspending
                         System.out.println("-> [FAILED] " + e.getMessage());
                     }
                 } else {
@@ -135,7 +134,7 @@ public class SimulationManager {
                 }
             }
 
-            // End of day Survival Check
+            // end of day
             if (cannotAffordAnything) {
                 System.out.println("\n❌ You can no longer afford any essential goods. Ending the simulation early.");
                 printFinalReport(survivalScore, playerHousehold);
