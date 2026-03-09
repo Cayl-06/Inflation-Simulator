@@ -1,53 +1,55 @@
 package simulation;
 
+import market.Market;
+import market.Product;
+import household.Household;
+import household.LowIncomeHousehold;
+import household.MiddleIncomeHousehold;
+import household.HighIncomeHousehold;
+
 import java.util.Scanner;
 
 public class SimulationManager {
-    public void run() {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== Inflation & Cost of Living Simulator ===");
+        // ==========================================
+        // 1. SETUP PHASE
+        // ==========================================
+        System.out.println("=== Welcome to the Inflation & Cost of Living Simulator ===");
+        
+        Market localMarket = new Market();
+        Household playerHousehold = null;
 
-        // --- Household selection ---
-        // TODO: Replace with actual Household objects once Member 1 finishes their classes
-        System.out.println("Choose household type:");
-        System.out.println("1. Low Income Household");
-        System.out.println("2. Middle Income Household");
-        System.out.println("3. High Income Household");
-        System.out.print("Enter choice: ");
-        int choice = sc.nextInt();
-
-        // Placeholder budget (will later come from Household.getBudget())
-        double budget = 5000; 
-        System.out.println("Starting budget: ₱" + budget);
-
-        // --- Survival duration ---
-        System.out.print("Enter number of days to survive: ");
-        int days = sc.nextInt();
-
-        // --- Daily loop ---
-        for (int day = 1; day <= days; day++) {
-            System.out.println("\nDay " + day);
-
-            // TODO: Replace with Market.showProducts() once Member 2 finishes their classes
-            System.out.println("Market prices (placeholder): Rice ₱40, Meat ₱150");
-
-            // TODO: Replace with actual buying logic using Household.spend() and ExpenseTracker
-            System.out.print("Enter expense for today: ");
-            double expense = sc.nextDouble();
-            budget -= expense;
-
-            // --- Constraint check ---
-            if (budget < 0) {
-                System.out.println("Budget went negative! Game Over.");
-                return;
-            }
-            System.out.println("Remaining budget: ₱" + budget);
+        System.out.println("Choose your household type:");
+        System.out.println("1. Low Income (₱5,000)");
+        System.out.println("2. Middle Income (₱12,000)");
+        System.out.println("3. High Income (₱25,000)");
+        System.out.print("Choice: ");
+        
+        int hhChoice = sc.nextInt();
+        switch (hhChoice) {
+            case 1:
+                playerHousehold = new LowIncomeHousehold();
+                break;
+            case 2:
+                playerHousehold = new MiddleIncomeHousehold();
+                break;
+            case 3:
+                playerHousehold = new HighIncomeHousehold();
+                break;
+            default:
+                System.out.println("Invalid choice. Defaulting to Low Income.");
+                playerHousehold = new LowIncomeHousehold();
         }
 
-        // --- End of simulation ---
-        // TODO: Add scoring system and final report once integration is complete
-        System.out.println("\nSimulation complete!");
-        System.out.println("Final budget: ₱" + budget);
+        System.out.println("\nYou are playing as a: " + playerHousehold.getHouseholdType());
+        playerHousehold.dailyNeeds(); // Trigger subclass-specific behavior
+
+        int totalDays = 5; 
+        double dailyInflationRate = 0.05; // 5% daily inflation
+        int survivalScore = 0;
+
+        
     }
 }
