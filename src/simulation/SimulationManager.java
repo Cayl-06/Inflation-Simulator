@@ -64,7 +64,7 @@ public class SimulationManager {
                 System.out.println(">>> ALERT: Inflation has increased prices by " + (dailyInflationRate * 100) + "%! <<<");
             }
 
-            // Optional Curveball: Trigger a shortage
+            // Trigger a shortage
             if (day == 3) {
                 System.out.println(">>> BREAKING NEWS: Severe Rice Shortage! <<<");
                 localMarket.triggerShortage("Rice", 2.0); 
@@ -93,7 +93,7 @@ public class SimulationManager {
                 Product selectedItem = localMarket.getProduct(choice);
 
                 if (selectedItem != null) {
-                     // 3. ENFORCE CONSTRAINTS (Exception Handling)
+                     //contraints
                     try {
                         // Member 1's spend method throws an Exception if they can't afford it
                         playerHousehold.spend(selectedItem.getPrice());
