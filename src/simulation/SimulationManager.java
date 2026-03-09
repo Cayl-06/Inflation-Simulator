@@ -116,7 +116,7 @@ public class SimulationManager {
                     System.out.println("-> Invalid item ID. Please try again.");
                 }
             }
-            
+
             // End of day Survival Check
             System.out.println("\n--- End of Day " + day + " Report ---");
             if (boughtFood && boughtTransport) {
@@ -128,6 +128,17 @@ public class SimulationManager {
             }
         }
 
+
+        // 4. FINAL REPORT
+  
+        System.out.println("\n==========================================");
+        System.out.println("             SIMULATION OVER");
+        System.out.println("==========================================");
+        System.out.println("Final Survival Score: " + survivalScore);
+        System.out.println("Total Expenses: ₱" + String.format("%.2f", playerHousehold.getTotalExpenses()));
+        System.out.println("Remaining Budget: ₱" + String.format("%.2f", playerHousehold.getBudget()));
+        
+        sc.close();
 
         
     }
