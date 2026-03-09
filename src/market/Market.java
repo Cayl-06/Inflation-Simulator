@@ -20,5 +20,18 @@ public class Market {
         products.add(new Product("Transportation", 20.0, "Transport"));
     }
 
-    
+    // Displays items available for purchase (Requested in PR)
+    public void showProducts() {
+        System.out.println("\n--- Market Prices ---");
+        
+        // Create a DecimalFormat object to force 2 decimal places
+        DecimalFormat df = new DecimalFormat("0.00"); 
+        
+        for (int i = 0; i < products.size(); i++) {
+            Product p = products.get(i);
+            
+            // Uses df.format() instead of printf
+            System.out.println((i + 1) + ". " + p.getName() + ": ₱" + df.format(p.getPrice()) + " (" + p.getCategory() + ")");
+        }
+    }
 }
