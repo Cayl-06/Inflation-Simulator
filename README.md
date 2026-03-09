@@ -61,15 +61,15 @@ This project is built using a modular approach, divided into three main packages
 1. **Navigate** to the `src` directory in your terminal.
 2. **Compile** the code:
 ```bash
-javac Main.java
-
+javac Main.java or
+javac -d out (Get-ChildItem -Recurse -Path src -Filter *.java).FullName
 ```
 
 
 3. **Run** the simulation:
 ```bash
-java Main
-
+java Main or
+java -cp out Main
 ```
 
 
