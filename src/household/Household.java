@@ -38,5 +38,15 @@ public abstract class Household {
         return totalExpenses;
     }
 
+    public String getHouseholdType() {
+        return householdType;
+    }
+
+    public double getIncome() {
+        return income;
+    }
+
+    // Each household type behaves differently
+    public abstract void dailyNeeds();
     
 }
