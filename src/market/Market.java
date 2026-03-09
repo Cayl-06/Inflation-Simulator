@@ -55,4 +55,9 @@ public class Market {
             }
         }
     }
+
+    // Helper method for SimulationManager to know how many items exist
+    public int getProductCount() {
+        return products.size();
+    }
 }
