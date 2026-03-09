@@ -13,9 +13,8 @@ public class SimulationManager {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // ==========================================
         // 1. SETUP PHASE
-        // ==========================================
+
         System.out.println("=== Welcome to the Inflation & Cost of Living Simulator ===");
         
         Market localMarket = new Market();
@@ -49,6 +48,75 @@ public class SimulationManager {
         int totalDays = 5; 
         double dailyInflationRate = 0.05; // 5% daily inflation
         int survivalScore = 0;
+
+        // ==========================================
+        // 2. THE DAILY LOOP
+        // ==========================================
+        for (int day = 1; day <= totalDays; day++) {
+            System.out.println("\n==========================================");
+            System.out.println("                  DAY " + day);
+            System.out.println("==========================================");
+
+            // Apply inflation at the start of Day 2 onward
+            if (day > 1) {
+                // Member 2's market update
+                localMarket.updatePrices(dailyInflationRate); 
+                System.out.println(">>> ALERT: Inflation has increased prices by " + (dailyInflationRate * 100) + "%! <<<");
+            }
+
+            // Optional Curveball: Trigger a shortage
+            if (day == 3) {
+                System.out.println(">>> BREAKING NEWS: Severe Rice Shortage! <<<");
+                localMarket.triggerShortage("Rice", 2.0); 
+            }
+
+            boolean boughtFood = false;
+            boolean boughtTransport = false;
+            boolean doneShopping = false;
+
+            // Daily shopping loop
+            while (!doneShopping) {
+                System.out.println("\nCurrent Budget: ₱" + String.format("%.2f", playerHousehold.getBudget())); 
+                System.out.println("Daily Goals: Need at least 1 Food & 1 Transport item.");
+                
+                localMarket.showProducts();
+                System.out.println("0. Finish shopping for the day");
+                System.out.print("Enter the ID of the item to buy: ");
+                
+                int choice = sc.nextInt();
+
+                if (choice == 0) {
+                    doneShopping = true;
+                    continue;
+                }
+
+                Product selectedItem = localMarket.getProduct(choice);
+
+                if (selectedItem != null) {
+                     // 3. ENFORCE CONSTRAINTS (Exception Handling)
+                    try {
+                        // Member 1's spend method throws an Exception if they can't afford it
+                        playerHousehold.spend(selectedItem.getPrice());
+                        
+                        System.out.println("-> You successfully bought: " + selectedItem.getName());
+
+                        // Track categories for Member 3's survival score logic
+                        String category = selectedItem.getCategory();
+                        if (category.equalsIgnoreCase("Food")) {
+                            boughtFood = true;
+                        } else if (category.equalsIgnoreCase("Transport")) {
+                            boughtTransport = true;
+                        }
+                        
+                    } catch (Exception e) {
+                        // Catches the overspending error from Household.java
+                        System.out.println("-> [FAILED] " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("-> Invalid item ID. Please try again.");
+                }
+            }
+
 
         
     }
