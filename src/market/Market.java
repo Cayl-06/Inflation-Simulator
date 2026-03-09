@@ -45,4 +45,14 @@ public class Market {
     public void updatePrices(double rate) {
         InflationCalculator.applyInflation(products, rate);
     }
+
+    // The Random Event Shortage method we discussed to help with constraints
+    public void triggerShortage(String productName, double multiplier) {
+        for (Product p : products) {
+            if (p.getName().equalsIgnoreCase(productName)) {
+                p.setPrice(p.getPrice() * multiplier);
+                System.out.println("⚠️ MARKET EVENT: " + productName + " shortage! Price spiked to ₱" + p.getPrice());
+            }
+        }
+    }
 }
