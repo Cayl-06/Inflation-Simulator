@@ -10,7 +10,7 @@ import household.HighIncomeHousehold;
 import java.util.Scanner;
 
 public class SimulationManager {
-    public static void main(String[] args) {
+    public void run() {
         Scanner sc = new Scanner(System.in);
 
         // 1. SETUP PHASE
@@ -43,7 +43,7 @@ public class SimulationManager {
         }
 
         System.out.println("\nYou are playing as a: " + playerHousehold.getHouseholdType());
-        playerHousehold.dailyNeeds(); // Trigger subclass-specific behavior
+        playerHousehold.dailyNeeds(); 
 
         int totalDays = 5; 
         double dailyInflationRate = 0.05; // 5% daily inflation
