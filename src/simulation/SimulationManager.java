@@ -98,7 +98,7 @@ public class SimulationManager {
                         
                         System.out.println("-> You successfully bought: " + selectedItem.getName());
 
-                        // Track categories for Member 3's survival score logic
+                        // Track categories for survival score logic
                         String category = selectedItem.getCategory();
                         if (category.equalsIgnoreCase("Food")) {
                             boughtFood = true;
