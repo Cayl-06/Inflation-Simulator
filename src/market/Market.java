@@ -46,6 +46,17 @@ public class Market {
         InflationCalculator.applyInflation(products, rate);
     }
 
+        // Helper method to find the cheapest item currently in the market
+    public double getCheapestPrice() {
+        double minPrice = Double.MAX_VALUE;
+        for (Product p : products) {
+            if (p.getPrice() < minPrice) {
+                minPrice = p.getPrice();
+            }
+        }
+        return minPrice;
+    }
+    
     // The Random Event Shortage method we discussed to help with constraints
     public void triggerShortage(String productName, double multiplier) {
         for (Product p : products) {
@@ -56,8 +67,11 @@ public class Market {
         }
     }
 
+
+
     // Helper method for SimulationManager to know how many items exist
     public int getProductCount() {
         return products.size();
     }
+
 }
