@@ -80,6 +80,7 @@ public class SimulationManager {
             boolean boughtFood = false;
             boolean boughtTransport = false;
             boolean doneShopping = false;
+            boolean cannotAffordAnything = false;
 
             // Daily shopping loop
             while (!doneShopping) {
@@ -88,6 +89,7 @@ public class SimulationManager {
                         System.out.println("\n⚠️ You cannot afford any more items (Cheapest item: ₱" 
                                             + String.format("%.2f", localMarket.getCheapestPrice()) + ").");
                         doneShopping = true;
+                        cannotAffordAnything = true;
                         continue;
                     }
                 
@@ -134,6 +136,13 @@ public class SimulationManager {
             }
 
             // End of day Survival Check
+            if (cannotAffordAnything) {
+                System.out.println("\n❌ You can no longer afford any essential goods. Ending the simulation early.");
+                printFinalReport(survivalScore, playerHousehold);
+                sc.close();
+                return;
+            }
+
             System.out.println("\n--- End of Day " + day + " Report ---");
             if (boughtFood && boughtTransport) {
                 System.out.println("Result: You met all your daily survival needs!");
