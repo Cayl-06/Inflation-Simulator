@@ -2,7 +2,7 @@ package market;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.text.DecimalFormat; // Imported DecimalFormat
+import java.text.DecimalFormat; 
 
 public class Market {
     private List<Product> products;
@@ -23,15 +23,21 @@ public class Market {
     // Displays items available for purchase (Requested in PR)
     public void showProducts() {
         System.out.println("\n--- Market Prices ---");
-        
-        // Create a DecimalFormat object to force 2 decimal places
-        DecimalFormat df = new DecimalFormat("0.00"); 
+                DecimalFormat df = new DecimalFormat("0.00"); 
         
         for (int i = 0; i < products.size(); i++) {
             Product p = products.get(i);
             
-            // Uses df.format() instead of printf
             System.out.println((i + 1) + ". " + p.getName() + ": ₱" + df.format(p.getPrice()) + " (" + p.getCategory() + ")");
         }
+    }
+
+    // Returns a selected product based on user input (Requested in PR)
+    public Product getProduct(int id) {
+        int index = id - 1; // Convert 1-based user choice to 0-based array index
+        if (index >= 0 && index < products.size()) {
+            return products.get(index);
+        }
+        return null; // Return null if the user types an invalid number
     }
 }
