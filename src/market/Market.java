@@ -34,11 +34,11 @@ public class Market {
 
     // Returns a selected product based on user input (Requested in PR)
     public Product getProduct(int id) {
-        int index = id - 1; // Convert 1-based user choice to 0-based array index
+        int index = id - 1; 
         if (index >= 0 && index < products.size()) {
             return products.get(index);
         }
-        return null; // Return null if the user types an invalid number
+        return null; 
     }
 
     // Updates prices using the InflationCalculator (Requested in PR)
